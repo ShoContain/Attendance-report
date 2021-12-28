@@ -3,7 +3,5 @@ const data = "hoge wwxxddx"
 </script>
 
 <template>
-    <div class="container">
-        Home{{ data }}
-    </div>
+    <h1 class="text-3xl text-green-500">Hello Tailwind</h1>
 </template>
