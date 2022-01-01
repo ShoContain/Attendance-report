@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
+const path = require('path');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -28,4 +30,7 @@ mix.js('resources/js/app.js', 'public/js')
         },
         open: false,
         reloadOnRestart: true,
-     });
+     })
+     .alias({
+        '@': path.join(__dirname, '/resources/js'),
+    });;
