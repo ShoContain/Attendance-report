@@ -1,3 +1,10 @@
+<script setup>
+import FullScreenSection from '@/components/FullScreenSection.vue'
+</script>
 <template>
-   <router-view />
+<FullScreenSection>
+   <template #content>
+      <router-view />
+   </template>
+</FullScreenSection>
 </template>
