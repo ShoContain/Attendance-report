@@ -1,8 +1,8 @@
 import request from "@/utils/request"
 
 export function login(data) {
-    return request({
-      url: `/pokemon/${data}`,
-      method: 'get',
-    })
-  }
+  return request({
+    url: `/pokemon/${data}`,
+    method: "get",
+  })
+}
