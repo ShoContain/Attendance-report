@@ -3,14 +3,14 @@ import { reactive } from "vue"
 import { login } from "@/api/user"
 
 const form = reactive({
-  login: "",
+  email: "",
   password: "",
   remember: false,
 })
 
 const handleLogin = async () => {
   try {
-    const data = await login("ditto")
+    const data = await login(form)
     console.log(data)
   } catch (err) {
     console.log(err)
@@ -29,13 +29,13 @@ const handleLogin = async () => {
           class="block text-gray-500 text-sm font-bold md:text-right mb-1 md:mb-0 pr-4"
           for="inline-full-name"
         >
-          ID
+          メール
         </label>
       </div>
       <div class="md:w-2/3">
         <input
           id="inline-full-name"
-          v-model="form.login"
+          v-model="form.email"
           class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
           type="text"
         />

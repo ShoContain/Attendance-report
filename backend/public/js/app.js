@@ -22786,7 +22786,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var expose = _ref.expose;
     expose();
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
-      login: "",
+      email: "",
       password: "",
       remember: false
     });
@@ -22800,7 +22800,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return (0,_api_user__WEBPACK_IMPORTED_MODULE_2__.login)("ditto");
+                return (0,_api_user__WEBPACK_IMPORTED_MODULE_2__.login)(form);
 
               case 3:
                 data = _context.sent;
@@ -23001,7 +23001,7 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "block text-gray-500 text-sm font-bold md:text-right mb-1 md:mb-0 pr-4",
   "for": "inline-full-name"
-}, " ID ")], -1
+}, " メール ")], -1
 /* HOISTED */
 );
 
@@ -23053,13 +23053,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "inline-full-name",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $setup.form.login = $event;
+      return $setup.form.email = $event;
     }),
     "class": "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
     type: "text"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.login]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "inline-password",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $setup.form.password = $event;
@@ -23099,8 +23099,9 @@ __webpack_require__.r(__webpack_exports__);
 
 function login(data) {
   return (0,_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: "/pokemon/".concat(data),
-    method: "get"
+    url: '/login',
+    method: "post",
+    data: data
   });
 }
 
@@ -23127,7 +23128,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]).use(_router__WEBPACK_IMPORTED_MODULE_1__["default"]).mount('#app');
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]).use(_router__WEBPACK_IMPORTED_MODULE_1__["default"]).mount("#app");
 
 /***/ }),
 
@@ -23210,18 +23211,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
-  path: '/',
-  name: 'Home',
+  path: "/",
+  name: "Home",
   component: _pages_Home_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
   meta: {
-    title: 'ホーム'
+    title: "ホーム"
   }
 }, {
-  path: '/login',
-  name: 'login',
+  path: "/login",
+  name: "login",
   component: _pages_Login_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
   meta: {
-    title: 'ログイン',
+    title: "ログイン",
     fullScreen: true
   }
 }]);
@@ -23244,7 +23245,7 @@ __webpack_require__.r(__webpack_exports__);
  // create an axios instance
 
 var service = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-  baseURL: "https://pokeapi.co/api/v2/",
+  baseURL: "http://localhost/api/",
   // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
