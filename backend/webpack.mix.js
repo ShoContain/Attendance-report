@@ -31,6 +31,20 @@ mix.js('resources/js/app.js', 'public/js')
         open: false,
         reloadOnRestart: true,
      })
-     .alias({
-        '@': path.join(__dirname, '/resources/js'),
-    });;
+    .webpackConfig({
+        resolve:{
+            alias:{
+                '@': path.join(__dirname, '/resources/js'),
+            }
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.m?js/,
+                    resolve: {
+                        fullySpecified: false
+                    }
+                },
+            ]
+        }
+    });
