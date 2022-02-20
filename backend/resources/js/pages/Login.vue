@@ -1,7 +1,8 @@
 <script setup>
 import { reactive } from "vue"
 import { login } from "@/api/user"
-
+import { auth } from "@/utils/auth"
+ 
 const form = reactive({
   email: "",
   password: "",
@@ -11,7 +12,7 @@ const form = reactive({
 const handleLogin = async () => {
   try {
     const data = await login(form)
-    console.log(data)
+    auth.setToken(data.token)
   } catch (err) {
     console.log(err)
   }
