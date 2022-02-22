@@ -1,90 +1,94 @@
 <script setup>
-import { reactive } from "vue"
-import { login } from "@/api/user"
-import { auth } from "@/utils/auth"
- 
+import { reactive, ref } from "vue"
+import { useRoute, useRouter } from "vue-router"
+import { useUserStore } from "@/store/user";
+
+const router = useRouter()
+const route = useRoute()
+
+const store = useUserStore()
+
+const formmRef = ref()
+
 const form = reactive({
   email: "",
   password: "",
   remember: false,
 })
 
+const loading = ref(false)
+
+const rules = reactive({
+  email: [
+    {
+      required: true,
+      message: "メールアドレスは必須です。",
+      trigger: "blur",
+    },
+    {
+      type: "email",
+      message: "メールアドレスの形式で入力して下さい。",
+      trigger: ["blur"],
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "パスワードは必須です。",
+      trigger: "blur",
+    },
+  ],
+})
+
+const redirect = ref(route.query.redirect)
+const submitForm = (formEl) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      handleLogin()
+    } else {
+      console.log("error submit!")
+      return false
+    }
+  })
+}
+
 const handleLogin = async () => {
+  loading.value = true
   try {
-    const data = await login(form)
-    auth.setToken(data.token)
+    store.login()
+    router.push({ path: redirect.value || "/" })
   } catch (err) {
     console.log(err)
+  } finally {
+    loading.value = false
   }
 }
 </script>
 
 <template>
-  <form
-    class="bg-white shadow-md rounded p-8 mb-2"
-    @submit.prevent="handleLogin"
-  >
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3">
-        <label
-          class="block text-gray-500 text-sm font-bold md:text-right mb-1 md:mb-0 pr-4"
-          for="inline-full-name"
-        >
-          メール
-        </label>
-      </div>
-      <div class="md:w-2/3">
-        <input
-          id="inline-full-name"
-          v-model="form.email"
-          class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-          type="text"
-        />
-      </div>
-    </div>
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3">
-        <label
-          class="block text-gray-500 text-sm font-bold md:text-right mb-1 md:mb-0 pr-4"
-          for="inline-password"
-        >
-          パスワード
-        </label>
-      </div>
-      <div class="md:w-2/3">
-        <input
-          id="inline-password"
-          v-model="form.password"
-          class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-          type="password"
-          placeholder="******************"
-        />
-      </div>
-    </div>
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3"></div>
-      <label class="md:w-2/3 block text-gray-500 font-bold">
-        <input
-          v-model="form.remember"
-          class="mr-2 leading-tight"
-          type="checkbox"
-        />
-        <span class="text-sm"> ログイン情報を記憶する </span>
-      </label>
-    </div>
-    <div class="md:flex md:items-center">
-      <div class="md:w-1/3"></div>
-      <div class="md:w-1/3">
-        <button
-          type="submit"
-          class="shadow bg-slate-700 hover:bg-slate-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-        >
-          ログイン
-        </button>
-      </div>
-    </div>
-    <div class="mt-6 text-center text-sm">
-      <a href="#" class="underline">新規登録</a>
-    </div>
-  </form>
+  <el-form ref="formmRef" :model="form" :rules="rules" label-width="120px">
+    <el-form-item label="メールアドレス" prop="email">
+      <el-input v-model="form.email"></el-input>
+    </el-form-item>
+    <el-form-item label="パスワード" prop="password">
+      <el-input v-model="form.password" type="password"></el-input>
+    </el-form-item>
+    <el-form-item label="ログイン情報を記憶する" prop="remember">
+      <el-checkbox v-model="form.remember"></el-checkbox>
+    </el-form-item>
+    <el-form-item>
+      <el-button
+        v-loading="loading"
+        type="primary"
+        @click="submitForm(formmRef)"
+        >ログイン</el-button
+      >
+    </el-form-item>
+  </el-form>
 </template>
+<style scoped>
+.el-form-item--default {
+  margin-bottom: 30px;
+}
+</style>

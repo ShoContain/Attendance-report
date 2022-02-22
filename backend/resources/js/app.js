@@ -6,10 +6,12 @@
 require("./bootstrap")
 
 import { createApp } from "vue"
-import router from "./router"
-import App from "./App.vue"
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css'
 import locale from "element-plus/lib/locale/lang/en";
+import App from "./App.vue"
+import { createPinia } from 'pinia'
+import router from "./router"
+import './router/permission' 
 
-createApp(App).use(router).use(ElementPlus,{locale}).mount("#app")
+createApp(App).use(router).use(ElementPlus,{locale}).use(createPinia()).mount("#app")

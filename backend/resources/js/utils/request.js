@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.MIX_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000, // request timeout
 })
 
@@ -21,11 +21,12 @@ service.interceptors.response.use(
     let message = error.message;
     if (error.response.data && error.response.data.errors) {
       message = error.response.data.errors;
-    } else if (error.response.data && error.response.data.error) {
-      message = error.response.data.error;
+    } else if (error.response.data && error.response.data.message) {
+      message = error.response.data.message;
     }
 
     ElMessage({
+      showClose: true,
       message: message,
       type: 'error',
       duration: 5 * 1000,
