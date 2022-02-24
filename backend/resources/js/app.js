@@ -11,7 +11,14 @@ import 'element-plus/dist/index.css'
 import locale from "element-plus/lib/locale/lang/en";
 import App from "./App.vue"
 import { createPinia } from 'pinia'
+import piniaPersist from 'pinia-plugin-persist'
 import router from "./router"
 import './router/permission' 
 
-createApp(App).use(router).use(ElementPlus,{locale}).use(createPinia()).mount("#app")
+const app = createApp(App)
+const pinia = createPinia()
+
+app.use(router)
+app.use(ElementPlus,{locale})
+app.use(pinia.use(piniaPersist))
+app.mount("#app")

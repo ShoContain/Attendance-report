@@ -1,12 +1,15 @@
 import { defineStore } from "pinia"
-import { login, getCsrfCookie, getInfo } from "@/api/user"
+import { login, me } from "@/api/user"
 
-export const useUserStore = defineStore("main", {
+export const useUserStore = defineStore("userStore", {
   //stateの定義、初期値を返す関数を定義する。
   state: () => ({
-        user: null,
-        isAuth: false,
+    user: null,
+    isAuth: false,
   }),
+   persist: {
+    enabled: true
+  },
   getters: {
     isLoggedIn(state) {
       return state.isAuth
@@ -17,18 +20,10 @@ export const useUserStore = defineStore("main", {
   },
   actions: {
     async login(credentials) {
-      await getCsrfCookie()
       await login(credentials)
-      this.getInfo()
-    },
-    async getInfo() {
-      try {
-        const user = await getInfo()
-        this.user = user
-        this.isAuth = true
-      } catch (err) {
-        console.log(err)
-      }
+      const user = await me()
+      this.user = user
+      this.isAuth = true
     },
   },
 })

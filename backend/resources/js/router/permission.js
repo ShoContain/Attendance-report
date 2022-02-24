@@ -1,7 +1,7 @@
 import router from "./index"
 import { useUserStore } from "@/store/user";
 
-const whiteList = ['/login']
+const whiteList = ['/login','/']
 
 router.beforeEach(async(to,from,next)=>{
 
@@ -22,5 +22,4 @@ router.beforeEach(async(to,from,next)=>{
             next(`/login?redirect=${to.path}`)
           }
     }
-
 })

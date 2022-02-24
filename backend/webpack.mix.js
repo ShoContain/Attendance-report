@@ -29,7 +29,7 @@ mix.js('resources/js/app.js', 'public/js')
             target: "http://127.0.0.1/",
         },
         open: false,
-        reloadOnRestart: true,
+        reloadOnRestart: false,
      })
     .webpackConfig({
         resolve:{

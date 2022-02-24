@@ -1,7 +1,8 @@
 <script setup>
 import { reactive, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/store/user"
+import { csrf } from "@/api/user"
 
 const router = useRouter()
 const route = useRoute()
@@ -45,24 +46,23 @@ const submitForm = (formEl) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      handleLogin()
+      loading.value = true
+      csrf().then(() => {
+        store
+          .login(form)
+          .then(() => {
+            router.push({ path: redirect.value || "/" })
+            loading.value = false
+          })
+          .catch(() => {
+            loading.value = false
+          })
+      })
     } else {
       console.log("error submit!")
       return false
     }
   })
-}
-
-const handleLogin = async () => {
-  loading.value = true
-  try {
-    store.login()
-    router.push({ path: redirect.value || "/" })
-  } catch (err) {
-    console.log(err)
-  } finally {
-    loading.value = false
-  }
 }
 </script>
 

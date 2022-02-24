@@ -1,6 +1,6 @@
 import request from "@/utils/request"
 
-export function getCsrfCookie() {
+export function csrf() {
   return request({
     url: '/sanctum/csrf-cookie',
     method: "get"
@@ -22,9 +22,9 @@ export function logout() {
   })
 }
 
-export function getInfo() {
+export function me() {
   return request({
-    url: '/user',
+    url: '/me',
     method: "get"
   })
 }

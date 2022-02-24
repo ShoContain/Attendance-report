@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
-use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -26,14 +24,13 @@ class LoginController extends Controller
             abort(Response::HTTP_UNAUTHORIZED, 'メールアドレス又はパスワードが違います。');
         }   
         
-        $request->session()->regenerate();
         return response()->json([
             'message' => "Logged In !"
         ],Response::HTTP_OK
         );
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
         return response()->json(['message' => 'Logged out'], 200);
