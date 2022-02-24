@@ -1,17 +1,16 @@
 <script setup>
-import NavBar from "@/components/NavBar.vue"
+import Header from "@/components/Header.vue"
 </script>
 <template>
-<el-container
+  <el-container
     class="layout-container-demo"
     style="height: 500px; border: 1px solid #eee"
   >
-<el-col :span="4">
-  <NavBar></NavBar>
-  </el-col>
-  <el-col :span="8">
-  <router-view />
-  </el-col>
-</el-row>
-</el-container>
+    <el-header>
+      <Header></Header>
+    </el-header>
+    <el-main>
+      <router-view />
+    </el-main>
+  </el-container>
 </template>
