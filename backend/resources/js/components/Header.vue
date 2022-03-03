@@ -1,33 +1,31 @@
 <script setup>
 import { ref } from "vue"
+import { useUserStore } from "@/store/user"
+const store = useUserStore()
 
 const activeIndex = ref("1")
 
-const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
+const handleSelect = (key) => {
+  console.log(key)
 }
 </script>
 
 <template>
   <el-menu
+    :default-active="activeIndex"
     active-text-color="#ffd04b"
     background-color="#545c64"
-    class="el-menu-vertical-demo"
-    :default-active="activeIndex"
     text-color="#fff"
     mode="horizontal"
     @select="handleSelect"
   >
-    <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
+    <el-menu-item index="1">
       <span>上映スケジュール</span>
     </el-menu-item>
     <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
       <span>作品案内</span>
     </el-menu-item>
     <el-menu-item index="3">
-      <el-icon><document /></el-icon>
       <span>チケット購入</span>
     </el-menu-item>
   </el-menu>
