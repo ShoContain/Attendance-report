@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScheduledMovie extends Migration
+class CreateRowTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateScheduledMovie extends Migration
      */
     public function up()
     {
-        Schema::create('scheduled_movie', function (Blueprint $table) {
+        Schema::create('row', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('movie_id');
-            $table->foreign('movie_id')->references('id')->on('movie'); 
-            $table->dateTime('start');
-            $table->dateTime('end');
             $table->unsignedBigInteger('auditorium_id');
-            $table->foreign('auditorium_id')->references('id')->on('auditorium'); 
+            $table->foreign('auditorium_id')->references('id')->on('auditorium');
+            $table->integer('number');
+            $table->integer('seats');
         });
     }
 
@@ -31,6 +29,6 @@ class CreateScheduledMovie extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scheduled_movie');
+        Schema::dropIfExists('row');
     }
 }
