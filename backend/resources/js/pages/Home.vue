@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from "vue"
 import { fetchList } from "@/api/movies"
+import { ref } from "vue"
 
 const activeName = ref("todaySchedule")
 
