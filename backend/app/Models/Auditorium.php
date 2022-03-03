@@ -9,9 +9,14 @@ class Auditorium extends Model
 {
     use HasFactory;
 
-    public function sheduledMovies()
+    public function scheduledMovies()
     {
-        return $this->hasMany('App\sheduledMovies');
+        return $this->hasMany('App\Models\ScheduledMovie');
+    }
+
+    public function rows()
+    {
+        return $this->hasMany('App\Models\Row');
     }
  
 }
