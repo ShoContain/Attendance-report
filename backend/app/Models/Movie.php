@@ -9,6 +9,12 @@ class Movie extends Model
 {
     use HasFactory;
 
+    protected $table = "movies";
+
+    public $timestamps = false;
+
+    protected $fillable = ['name', 'description', 'minutes','published_year'];
+
     public function scheduledMovies()
     {
         return $this->hasMany('App\Models\scheduledMovie');

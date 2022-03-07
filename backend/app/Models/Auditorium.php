@@ -9,6 +9,12 @@ class Auditorium extends Model
 {
     use HasFactory;
 
+    protected $table = "auditoriums";
+
+    public $timestamps = false;
+
+    protected $fillable = ['name', 'capacity'];
+
     public function scheduledMovies()
     {
         return $this->hasMany('App\Models\ScheduledMovie');

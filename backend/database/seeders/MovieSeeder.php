@@ -13,6 +13,8 @@ class MovieSeeder extends Seeder
      */
     public function run()
     {
-        $posts = factory(App\Post::class, 10)->create();
+        \App\Models\Movie::factory()->count(10)->create()->each(function ($movie) {
+            \App\Models\ScheduledMovie::factory()->count(3)->create(['movie_id' => $movie->id]);
+        });
     }
 }
