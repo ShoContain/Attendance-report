@@ -13,7 +13,7 @@ class Movie extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name', 'description', 'minutes','published_year'];
+    protected $fillable = ['name','description','minutes','published_year','image_path'];
 
     public function scheduledMovies()
     {

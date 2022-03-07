@@ -17,7 +17,7 @@ class AuditoriumFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->randomLetter(),
+            'name' => strtoupper($this->faker->randomLetter()),
             'capacity'=>$this->faker->numberBetween(100,200)
         ];
     }

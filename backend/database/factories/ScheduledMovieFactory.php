@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\ScheduledMovie;
 use App\Models\Movie;
 use App\Models\Auditorium;
+use Carbon\Carbon;
 
 class ScheduledMovieFactory extends Factory
 {
@@ -19,12 +20,14 @@ class ScheduledMovieFactory extends Factory
      */
     public function definition()
     {
-        $startDate = $this->faker->dateTimeThisYear();
+        $movie = Movie::inRandomOrder()->first();
+        $startDate = Carbon::createFromTimestamp($this->faker->dateTimeThisMonth()->getTimestamp());
+        $endDate = $startDate->copy()->addMinutes($movie->minutes);
         return [
-            'movie_id'=>Movie::factory(),
+            'movie_id'=>$movie->id,
             'start'=>$startDate,
-            'end'=>$this->faker->dateTimeBetween($startDate),
-            'auditorium_id'=>Auditorium::factory(),
+            'end'=>$endDate,
+            'auditorium_id'=>Auditorium::inRandomOrder()->first()->id,
             'price'=>$this->faker->numberBetween(2000,3000)
         ];
     }

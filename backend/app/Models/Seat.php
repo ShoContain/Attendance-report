@@ -9,6 +9,12 @@ class Seat extends Model
 {
     use HasFactory;
 
+    protected $table = "seats";
+
+    public $timestamps = false;
+
+    protected $fillable = ['row_id', 'number'];
+
     public function row()
     {
         return $this->belongsTo('App\Models\Row');
