@@ -20,10 +20,11 @@ class TestDataSeeder extends Seeder
             });
         });
 
-        // make movies
-        \App\Models\ScheduledMovie::factory()->count(20)->create();
+        // make scheduledMovies
+        \App\Models\ScheduledMovie::factory()->count(20)->create()->each(function ($scheduledMovie) {
+            // make reservations
+            \App\Models\Reservation::factory()->count(10)->create(['movie_id'=>$scheduledMovie->movie_id]);
+        });
 
-         // make reservations
-         \App\Models\Reservation::factory()->count(100)->create();
     }
 }
