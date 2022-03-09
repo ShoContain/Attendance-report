@@ -1,8 +1,15 @@
 <script setup>
 import { fetchList } from "@/api/movies"
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import moment from "moment"
+moment.locale("ja")
 
 const activeName = ref("todaySchedule")
+const date = ref("")
+
+onMounted(() => {
+  load()
+})
 
 const handleClick = (tab, event) => {
   console.log(tab, event)
@@ -10,13 +17,16 @@ const handleClick = (tab, event) => {
 
 const load = async () => {
   try {
-    const data = await fetchList(new Date())
-    console.log(data)
+    date.value =
+      activeName.value === "todaySchedule"
+        ? moment().endOf("day")
+        : moment.add(1, "day").endOf("day")
+    console.log(date.value)
+    const data = await fetchList(date.value)
   } catch (err) {
     console.log(err)
   }
 }
-load()
 </script>
 
 <template>

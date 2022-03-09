@@ -1,9 +1,9 @@
 import request from "@/utils/request"
 
-export function fetchList(query) {
+export function fetchList(date) {
   return request({
     url: '/movie',
     method: "get",
-    parames:query
+    parames:date
   })
 }
