@@ -33,6 +33,7 @@
     },
     "dependencies": {
         "element-plus": "^2.0.2",
+        "moment": "^2.29.1",
         "pinia": "^2.0.11",
         "pinia-plugin-persist": "^0.0.93",
         "vue-router": "^4.0.12"
