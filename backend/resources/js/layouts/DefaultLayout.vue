@@ -2,10 +2,7 @@
 import Header from "@/components/Header.vue"
 </script>
 <template>
-  <el-container
-    class="layout-container-demo"
-    style="height: 500px; border: 1px solid #eee"
-  >
+  <el-container>
     <el-header>
       <Header></Header>
     </el-header>

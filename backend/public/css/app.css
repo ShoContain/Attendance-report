@@ -314,8 +314,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 *, ::before, ::after{
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
   --tw-blur: var(--tw-empty,/*!*/ /*!*/);
   --tw-brightness: var(--tw-empty,/*!*/ /*!*/);
   --tw-contrast: var(--tw-empty,/*!*/ /*!*/);
@@ -347,9 +345,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .rounded{
   border-radius: 0.25rem;
-}
-.border{
-  border-width: 1px;
 }
 .bg-sky-300{
   --tw-bg-opacity: 1;

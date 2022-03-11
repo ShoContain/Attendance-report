@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Movie;
 use App\Models\ScheduledMovie;
+use App\Http\Resources\MovieResource;
+use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller
 {
@@ -21,12 +23,11 @@ class MovieController extends Controller
         $searchParams = $request->all();
         $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
         $page = Arr::get($searchParams, 'page', static::ITEM_PAGE);
+        $offset = $limit * ($page - 1);
         $date = Arr::get($searchParams, 'date', '');
 
-        $movieQuery = ScheduledMovie::whereRaw("DATE_FORMAT(start, '%Y%-m%-d') = $date")->get();
-
-        
-        
+        $movies = ScheduledMovie::whereDate('start', $date)->orderBy('start','ASC')->offset($offset)->limit($limit)->get();
+        return MovieResource::collection($movies);
     }
 
     /**
