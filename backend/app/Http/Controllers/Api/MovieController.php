@@ -4,16 +4,29 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use App\Models\Movie;
+use App\Models\ScheduledMovie;
 
 class MovieController extends Controller
 {
+    const ITEM_PER_PAGE = 15;
+    const ITEM_PAGE = 1;
     /**
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        echo 'jofe';
+        $searchParams = $request->all();
+        $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
+        $page = Arr::get($searchParams, 'page', static::ITEM_PAGE);
+        $date = Arr::get($searchParams, 'date', '');
+
+        $movieQuery = ScheduledMovie::whereRaw("DATE_FORMAT(start, '%Y%-m%-d') = $date")->get();
+
+        
+        
     }
 
     /**

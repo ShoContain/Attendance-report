@@ -1,28 +1,33 @@
 <script setup>
 import { fetchList } from "@/api/movies"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, reactive } from "vue"
 import moment from "moment"
 moment.locale("ja")
 
 const activeName = ref("todaySchedule")
 const date = ref("")
+const query = reactive({
+  page: 1,
+  limit: 15,
+  date: moment().format("YYYY-MM-DD"),
+})
 
 onMounted(() => {
   load()
 })
 
-const handleClick = (tab, event) => {
-  console.log(tab, event)
+const handleClick = () => {
+  console.log('a')
+  query.date =
+    activeName.value === "todaySchedule"
+      ? moment().format("YYYY-MM-DD")
+      : moment().add(1, "day").format("YYYY-MM-DD")
+  load()
 }
 
 const load = async () => {
   try {
-    date.value =
-      activeName.value === "todaySchedule"
-        ? moment().endOf("day")
-        : moment.add(1, "day").endOf("day")
-    console.log(date.value)
-    const data = await fetchList(date.value)
+    const data = await fetchList(query)
   } catch (err) {
     console.log(err)
   }

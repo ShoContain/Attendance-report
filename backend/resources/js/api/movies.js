@@ -1,9 +1,10 @@
 import request from "@/utils/request"
 
-export function fetchList(date) {
+export function fetchList(query) {
+  console.log(query)
   return request({
-    url: '/movie',
+    url: "/movie",
     method: "get",
-    parames:date
+    params: query,
   })
 }
