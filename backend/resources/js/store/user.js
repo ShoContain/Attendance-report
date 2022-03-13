@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { login, me } from "@/api/user"
+import { login, me, logout } from "@/api/user"
 
 export const useUserStore = defineStore("userStore", {
   //stateの定義、初期値を返す関数を定義する。
@@ -7,8 +7,8 @@ export const useUserStore = defineStore("userStore", {
     user: null,
     isAuth: false,
   }),
-   persist: {
-    enabled: true
+  persist: {
+    enabled: true,
   },
   getters: {
     isLoggedIn(state) {
@@ -24,6 +24,11 @@ export const useUserStore = defineStore("userStore", {
       const user = await me()
       this.user = user
       this.isAuth = true
+    },
+    async logout() {
+      await logout()
+      this.user = null
+      this.isAuth = false
     },
   },
 })

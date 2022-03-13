@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use App\Models\Movie;
 use App\Models\ScheduledMovie;
 use App\Http\Resources\ScheduledMovieResource;
 use App\Http\Resources\MovieResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
 
 class MovieController extends Controller

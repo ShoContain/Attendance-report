@@ -1,6 +1,7 @@
 import Home from "@/pages/Home.vue"
 import Login from "@/pages/Login.vue"
 import Detail from "@/pages/Detail.vue"
+import Booking from "@/pages/Booking.vue"
 
 export default [
   {
@@ -29,6 +30,15 @@ export default [
     meta: {
       title: "詳細情報",
       requiresAuth: false,
+    },
+  },
+  {
+    path: "/booking/:id(\\d+)",
+    name: "booking",
+    component: Booking,
+    meta: {
+      title: "予約",
+      requiresAuth: true,
     },
   },
 ]

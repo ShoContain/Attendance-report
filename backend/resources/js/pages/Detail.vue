@@ -3,9 +3,11 @@ import { find } from "@/api/movies"
 import { ref, onBeforeMount, computed } from "vue"
 import { useRoute } from "vue-router"
 import { Timer } from "@element-plus/icons-vue"
+import Schedule from "@/components/Schedule"
 
 const loading = ref(false)
 const movie = ref(null)
+const activeName = ref("1")
 const route = useRoute()
 
 onBeforeMount(() => {
@@ -45,17 +47,21 @@ const getPath = computed(() => movie.value.image_path)
         </div>
       </el-col>
       <el-col :md="12">
-        <div>
-          {{ movie.description }}
-        </div>
         <div class="mb-2" style="color: #409efc">
           <el-icon :size="20" style="vertical-align: middle"><timer /></el-icon>
           <span style="vertical-align: middle">{{ movie.minutes }}分</span>
         </div>
-        <el-button type="danger">予約する</el-button>
+        <div>
+          {{ movie.description }}
+        </div>
       </el-col>
     </el-row>
   </el-card>
+  <el-collapse v-model="activeName">
+    <el-collapse-item title="上映スケジュール" name="1">
+      <schedule v-model="movie.schedules" />
+    </el-collapse-item>
+  </el-collapse>
 </template>
 <style scoped>
 .demo-image__lazy .el-image {
