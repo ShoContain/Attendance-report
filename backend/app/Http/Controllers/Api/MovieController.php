@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Movie;
 use App\Models\ScheduledMovie;
+use App\Http\Resources\ScheduledMovieResource;
 use App\Http\Resources\MovieResource;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class MovieController extends Controller
 {
@@ -27,7 +28,7 @@ class MovieController extends Controller
         $date = Arr::get($searchParams, 'date', '');
 
         $movies = ScheduledMovie::whereDate('start', $date)->orderBy('start','ASC')->offset($offset)->limit($limit)->get();
-        return MovieResource::collection($movies);
+        return ScheduledMovieResource::collection($movies);
     }
 
     /**
@@ -59,7 +60,15 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        //
+        $movie = Movie::find($id);
+
+        if(!$movie){
+            return response()->json([
+                'message' => "お探しの映画は見つかりませんでした。"
+            ],Response::HTTP_NOT_FOUND
+            ); 
+        }
+        return new MovieResource($movie);
     }
 
     /**

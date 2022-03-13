@@ -7,3 +7,10 @@ export function fetchList(query) {
     params: query,
   })
 }
+
+export function find(id) {
+  return request({
+    url: "/movie/" + id,
+    method: "get",
+  })
+}

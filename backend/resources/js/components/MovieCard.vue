@@ -1,5 +1,9 @@
 <script setup>
 import { computed } from "vue"
+import { useRouter } from "vue-router"
+
+const router = useRouter()
+
 const props = defineProps({
   modelValue: {
     type: [Array],
@@ -12,6 +16,10 @@ const computedValue = computed({
     emit("update:modelValue", value)
   },
 })
+
+const jumpToDetail = (id) => {
+  router.push(`/movie/${id}`)
+}
 </script>
 
 <template>
@@ -26,13 +34,18 @@ const computedValue = computed({
         <el-image
           style="width: 300px; height: 250px"
           :src="movie.image_path"
-          fit="fit"
+          fit="fill"
         ></el-image>
         <div style="padding: 14px">
           <span>{{ movie.name }}</span>
           <div class="bottom">
             <time class="time">{{ movie.start }} 開始</time>
-            <el-button type="text" class="button">詳細</el-button>
+            <el-button
+              type="text"
+              class="button"
+              @click="jumpToDetail(movie.movie_id)"
+              >詳細</el-button
+            >
           </div>
         </div>
       </el-card>

@@ -325,8 +325,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-drop-shadow: var(--tw-empty,/*!*/ /*!*/);
   --tw-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
+.ml-2{
+  margin-left: 0.5rem;
+}
+.mb-2{
+  margin-bottom: 0.5rem;
+}
+.block{
+  display: block;
+}
 .flex{
   display: flex;
+}
+.table{
+  display: table;
 }
 .h-screen{
   height: 100vh;

@@ -15,15 +15,21 @@ class MovieResource extends JsonResource
      */
     public function toArray($request)
     {
-        $start = new Carbon($this->start);
+        $schedules = $this->scheduledMovies->toArray();
+        $categories = $this->categories->toArray();
         return [
             'id' => $this->id,
-            'movie_id'=>$this->movie_id,
-            'name'=>$this->movie->name,
-            'image_path'=> 'image/'.$this->movie->image_path,
-            'start' => $start->format('Y年m月d日 H時i分s秒'),
-            'end' => $this->end,
-            'price'=>$this->price
+            'name'=>$this->name,
+            'description'=>$this->description,
+            'minutes'=>$this->minutes,
+            'image_path'=> '/image/'.$this->image_path,
+            'schedules'=>array_map(function($schedule){
+                $start = new Carbon($schedule['start']);
+                return $start->format('Y年m月d日 H時i分s秒');
+            },$schedules),
+            'categories'=>array_map(function($category){
+                return $category['name'];
+            },$categories)
         ];
     }
 }
