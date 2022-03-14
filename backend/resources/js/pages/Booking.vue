@@ -5,6 +5,7 @@ import { useRoute } from "vue-router"
 
 const route = useRoute()
 const loading = ref(false)
+const screen = ref(null)
 
 onBeforeMount(() => {
   const id = route.params && route.params.id
@@ -15,7 +16,7 @@ const load = async (id) => {
   loading.value = true
   try {
     const { data } = await find(id)
-    movie.value = data
+    screen.value = data
     loading.value = false
   } catch (err) {
     // TODO:404ページを作成しリダイレクトをかける
@@ -25,5 +26,213 @@ const load = async (id) => {
 </script>
 
 <template>
-    <div>hoge</div>
+  <div class="theatre">
+    <div class="cinema-seats left">
+      <div
+        v-for="(row, index) in screen.rows"
+        :key="index"
+        class="cinema-row"
+        :class="`row-${index + 1}`"
+      >
+        <div
+          v-for="(seat, row_index) in row"
+          :key="row_index"
+          class="seat"
+        ></div>
+      </div>
+    </div>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.theatre {
+  display: flex;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cinema-seats {
+  display: flex;
+  .seat {
+    cursor: pointer;
+
+    &:hover:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 7px;
+    }
+
+    &.active {
+    }
+
+    &.active:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 7px;
+    }
+  }
+}
+
+// Left Seats
+.left {
+  .cinema-row {
+    transform: skew(-15deg);
+    margin: 0 6px;
+  }
+  .seat {
+    width: 35px;
+    height: 50px;
+    border-radius: 7px;
+    background: linear-gradient(
+      to top,
+      #761818,
+      #761818,
+      #761818,
+      #761818,
+      #761818,
+      #b54041,
+      #f3686a
+    );
+    margin-bottom: 10px;
+    transform: skew(20deg);
+    margin-top: -32px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .row-2 {
+    transform: skew(-13deg);
+
+    .seat {
+      transform: skew(18deg);
+    }
+  }
+
+  .row-3 {
+    transform: skew(-12deg);
+
+    .seat {
+      transform: skew(16deg);
+    }
+  }
+
+  .row-4 {
+    transform: skew(-11deg);
+
+    .seat {
+      transform: skew(15deg);
+    }
+  }
+
+  .row-5 {
+    transform: skew(-10deg);
+
+    .seat {
+      transform: skew(12deg);
+    }
+  }
+
+  .row-6 {
+    transform: skew(-9deg);
+
+    .seat {
+      transform: skew(10deg);
+    }
+  }
+
+  .row-7 {
+    transform: skew(-7deg);
+
+    .seat {
+      transform: skew(8deg);
+    }
+  }
+}
+
+// Right Seats
+.right {
+  margin-left: 70px;
+
+  .cinema-row {
+    transform: skew(7deg);
+    margin: 0 6px;
+  }
+
+  .seat {
+    width: 35px;
+    height: 50px;
+    border-radius: 7px;
+    background: linear-gradient(
+      to top,
+      #761818,
+      #761818,
+      #761818,
+      #761818,
+      #761818,
+      #b54041,
+      #f3686a
+    );
+    margin-bottom: 10px;
+    transform: skew(-8deg);
+    margin-top: -32px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .row-2 {
+    transform: skew(9deg);
+
+    .seat {
+      transform: skew(-10deg);
+    }
+  }
+
+  .row-3 {
+    transform: skew(10deg);
+
+    .seat {
+      transform: skew(-12deg);
+    }
+  }
+
+  .row-4 {
+    transform: skew(11deg);
+
+    .seat {
+      transform: skew(-15deg);
+    }
+  }
+
+  .row-5 {
+    transform: skew(12deg);
+
+    .seat {
+      transform: skew(-16deg);
+    }
+  }
+
+  .row-6 {
+    transform: skew(13deg);
+
+    .seat {
+      transform: skew(-18deg);
+    }
+  }
+
+  .row-7 {
+    transform: skew(15deg);
+
+    .seat {
+      transform: skew(-20deg);
+    }
+  }
+}
+</style>

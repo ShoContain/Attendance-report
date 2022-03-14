@@ -10,9 +10,6 @@ const handleSelect = (key) => {
   console.log(key)
 }
 
-const logout = () => {
-  store.logout()
-}
 </script>
 
 <template>
@@ -32,9 +29,6 @@ const logout = () => {
     </el-menu-item>
     <el-menu-item index="3">
       <span>チケット購入</span>
-    </el-menu-item>
-    <el-menu-item index="3">
-      <el-button @click="logout()">ログアウト</el-button>
     </el-menu-item>
   </el-menu>
 </template>

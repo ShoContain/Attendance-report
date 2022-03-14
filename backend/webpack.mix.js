@@ -15,7 +15,7 @@ const path = require("path")
 
 mix
   .js("resources/js/app.js", "public/js")
-  .vue()
+  .vue({ extractVueStyles: true })
   .sass("resources/sass/app.scss", "public/css")
   .options({
     processCssUrls: false,
@@ -32,7 +32,7 @@ mix
   .webpackConfig({
     resolve: {
       alias: {
-        "@": path.join(__dirname, "/resources/js")
+        "@": path.join(__dirname, "/resources/js"),
       },
     },
     module: {

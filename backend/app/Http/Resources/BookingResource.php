@@ -24,7 +24,7 @@ class BookingResource extends JsonResource
         return [
             'id' => $this->id,
             'auditorium_name'=>$auditoriumName,
-            'seats'=>$seats,
+            'rows'=>$seats,
         ];
     }
 }
