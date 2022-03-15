@@ -18,4 +18,9 @@ class Reservation extends Model
     {
         return $this->belongsTo('App\Models\Seat');
     }
+
+    public function scheduled_movies()
+    {
+        return $this->belongsTo('App\Models\ScheduledMovie');
+    }
 }

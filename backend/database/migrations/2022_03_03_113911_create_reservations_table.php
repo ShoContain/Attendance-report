@@ -19,8 +19,8 @@ class CreateReservationsTable extends Migration
             $table->foreign('seat_id')->references('id')->on('seats');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('movie_id');
-            $table->foreign('movie_id')->references('id')->on('movies');
+            $table->unsignedBigInteger('scheduled_movie_id');
+            $table->foreign('scheduled_movie_id')->references('id')->on('scheduled_movies');
             $table->timestamps();
         });
     }
