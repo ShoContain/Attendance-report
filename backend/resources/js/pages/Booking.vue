@@ -26,213 +26,131 @@ const load = async (id) => {
 </script>
 
 <template>
-  <div class="theatre">
-    <div class="cinema-seats left">
-      <div
-        v-for="(row, index) in screen.rows"
-        :key="index"
-        class="cinema-row"
-        :class="`row-${index + 1}`"
-      >
+  <body>
+    <ul class="showcase">
+      <li>
+        <div class="seat selected"></div>
+        <small>選択した席</small>
+      </li>
+      <li>
+        <div class="seat occupied"></div>
+        <small>販売対象外</small>
+      </li>
+    </ul>
+
+    <div class="container">
+      <div class="screen"></div>
+
+      <div v-for="(row, index) in screen.rows" :key="index" class="row">
         <div
-          v-for="(seat, row_index) in row"
-          :key="row_index"
+          v-for="(seat, seat_index) in row"
+          :key="seat_index"
           class="seat"
         ></div>
       </div>
     </div>
-  </div>
+
+    <p class="text">
+      You have selected <span id="count">0</span> seats for a price of $<span
+        id="total"
+        >0</span
+      >
+    </p>
+  </body>
 </template>
 
-<style lang="scss" scoped>
-.theatre {
+<style scoped>
+body {
+  background-color: #242333;
+  color: #fff;
   display: flex;
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: "Lato", sans-serif;
+  margin: 0;
+}
+.container {
+  perspective: 1000px;
+  margin-bottom: 30px;
 }
 
-.cinema-seats {
+.seat {
+  background-color: #444451;
+  height: 12px;
+  width: 15px;
+  margin: 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.seat.selected {
+  background-color: #6feaf6;
+}
+
+.seat.occupied {
+  background-color: #fff;
+}
+
+.seat:nth-of-type(2) {
+  margin-right: 18px;
+}
+
+.seat:nth-last-of-type(2) {
+  margin-left: 18px;
+}
+
+.seat:not(.occupied):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.showcase .seat:not(.occupied):hover {
+  cursor: default;
+  transform: scale(1);
+}
+
+.showcase {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #777;
+  list-style-type: none;
   display: flex;
-  .seat {
-    cursor: pointer;
-
-    &:hover:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 7px;
-    }
-
-    &.active {
-    }
-
-    &.active:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 7px;
-    }
-  }
+  justify-content: space-between;
 }
 
-// Left Seats
-.left {
-  .cinema-row {
-    transform: skew(-15deg);
-    margin: 0 6px;
-  }
-  .seat {
-    width: 35px;
-    height: 50px;
-    border-radius: 7px;
-    background: linear-gradient(
-      to top,
-      #761818,
-      #761818,
-      #761818,
-      #761818,
-      #761818,
-      #b54041,
-      #f3686a
-    );
-    margin-bottom: 10px;
-    transform: skew(20deg);
-    margin-top: -32px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  }
-
-  .row-2 {
-    transform: skew(-13deg);
-
-    .seat {
-      transform: skew(18deg);
-    }
-  }
-
-  .row-3 {
-    transform: skew(-12deg);
-
-    .seat {
-      transform: skew(16deg);
-    }
-  }
-
-  .row-4 {
-    transform: skew(-11deg);
-
-    .seat {
-      transform: skew(15deg);
-    }
-  }
-
-  .row-5 {
-    transform: skew(-10deg);
-
-    .seat {
-      transform: skew(12deg);
-    }
-  }
-
-  .row-6 {
-    transform: skew(-9deg);
-
-    .seat {
-      transform: skew(10deg);
-    }
-  }
-
-  .row-7 {
-    transform: skew(-7deg);
-
-    .seat {
-      transform: skew(8deg);
-    }
-  }
+.showcase li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
 }
 
-// Right Seats
-.right {
-  margin-left: 70px;
+.showcase li small {
+  margin-left: 2px;
+}
 
-  .cinema-row {
-    transform: skew(7deg);
-    margin: 0 6px;
-  }
+.row {
+  display: flex;
+  justify-content: center;
+}
 
-  .seat {
-    width: 35px;
-    height: 50px;
-    border-radius: 7px;
-    background: linear-gradient(
-      to top,
-      #761818,
-      #761818,
-      #761818,
-      #761818,
-      #761818,
-      #b54041,
-      #f3686a
-    );
-    margin-bottom: 10px;
-    transform: skew(-8deg);
-    margin-top: -32px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  }
+.screen {
+  background-color: #fff;
+  height: 70px;
+  width: 100%;
+  margin: 15px 0;
+  transform: rotateX(-45deg);
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+}
 
-  .row-2 {
-    transform: skew(9deg);
+p.text {
+  margin: 5px 0;
+}
 
-    .seat {
-      transform: skew(-10deg);
-    }
-  }
-
-  .row-3 {
-    transform: skew(10deg);
-
-    .seat {
-      transform: skew(-12deg);
-    }
-  }
-
-  .row-4 {
-    transform: skew(11deg);
-
-    .seat {
-      transform: skew(-15deg);
-    }
-  }
-
-  .row-5 {
-    transform: skew(12deg);
-
-    .seat {
-      transform: skew(-16deg);
-    }
-  }
-
-  .row-6 {
-    transform: skew(13deg);
-
-    .seat {
-      transform: skew(-18deg);
-    }
-  }
-
-  .row-7 {
-    transform: skew(15deg);
-
-    .seat {
-      transform: skew(-20deg);
-    }
-  }
+p.text span {
+  color: #6feaf6;
 }
 </style>
