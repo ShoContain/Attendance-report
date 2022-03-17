@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Seat;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
 
 class BookingResource extends JsonResource
 {
@@ -20,11 +22,16 @@ class BookingResource extends JsonResource
         $seats = $rows->map(function($row){
             return Seat::where('row_id','=',$row->id)->get()->toArray();
         });
+        $occupiedSeats = Reservation::where('scheduled_movie_id',$this->id)->get()->toArray();
         
         return [
-            'id' => $this->id,
+            'scheduled_movie_id' => $this->id,
+            'user_id'=>Auth::id(),
             'auditorium_name'=>$auditoriumName,
             'rows'=>$seats,
+            'occupied_seats'=>array_map(function($occupiedSeat){
+                return $occupiedSeat['seat_id'];
+            },$occupiedSeats)
         ];
     }
 }

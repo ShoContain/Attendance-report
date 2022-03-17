@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Seat;
 
 class TestDataSeeder extends Seeder
 {
@@ -28,9 +27,15 @@ class TestDataSeeder extends Seeder
         }
 
         // make scheduledMovies
-        \App\Models\ScheduledMovie::factory()->count(20)->create()->each(function ($scheduledMovie) {
-            // make reservations
-            \App\Models\Reservation::factory()->count(10)->create(['movie_id'=>$scheduledMovie->movie_id]);
-        });
+        \App\Models\ScheduledMovie::factory()->count(20)->create();
+
+        // make reservations
+        $scheduledMovies = \App\Models\ScheduledMovie::all()->toArray();
+        foreach ($scheduledMovies as $scheduledMovie) {
+            $seat = \App\Models\Seat::whereHas('row', function ($query) use ($scheduledMovie) {
+                $query->where('auditorium_id', $scheduledMovie['auditorium_id']);
+            })->inRandomOrder()->first();
+            \App\Models\Reservation::factory()->create(['scheduled_movie_id' => $scheduledMovie['id'], 'seat_id' => $seat->id]);
+        }
     }
 }

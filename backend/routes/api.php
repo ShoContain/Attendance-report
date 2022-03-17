@@ -23,8 +23,8 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::resource('movie', MovieController::class);
 
 // need to login
-Route::resource('booking', BookingController::class);
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('booking', BookingController::class);
 });
 
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {

@@ -1,11 +1,13 @@
 <script setup>
-import { find } from "@/api/booking"
-import { ref, onBeforeMount } from "vue"
+import { find ,store} from "@/api/booking"
+import { ref, computed, onBeforeMount } from "vue"
 import { useRoute } from "vue-router"
 
 const route = useRoute()
 const loading = ref(false)
 const screen = ref(null)
+const selected = ref([])
+const visible = ref(false)
 
 onBeforeMount(() => {
   const id = route.params && route.params.id
@@ -23,6 +25,21 @@ const load = async (id) => {
     console.log(err)
   }
 }
+
+const handleSelect = async (id) => {
+  const index = selected.value.indexOf(id)
+  if (index === -1) {
+    selected.value.push(id)
+  } else {
+    selected.value.splice(index, 1)
+  }
+}
+
+const handleConfirmBooking= async () => {
+  const {data} = await store()
+}
+
+const hasSelected = computed(() => selected.value.length > 0)
 </script>
 
 <template>
@@ -42,20 +59,47 @@ const load = async (id) => {
       <div class="screen"></div>
 
       <div v-for="(row, index) in screen.rows" :key="index" class="row">
-        <div
+        <button
           v-for="(seat, seat_index) in row"
           :key="seat_index"
           class="seat"
-        ></div>
+          :class="[
+            { occupied: screen.occupied_seats.includes(seat.id) },
+            { selected: selected.includes(seat.id) },
+          ]"
+          :disabled="screen.occupied_seats.includes(seat.id)"
+          @click="handleSelect(seat.id)"
+        ></button>
       </div>
     </div>
 
-    <p class="text">
-      You have selected <span id="count">0</span> seats for a price of $<span
-        id="total"
-        >0</span
-      >
+    <p v-if="hasSelected" class="text">
+      <span id="count">{{ selected.length }}</span
+      >席選択しています。
     </p>
+    <p v-else class="text">席を選択してください。</p>
+
+    <el-popover
+      v-if="hasSelected"
+      v-model:visible="visible"
+      placement="top"
+      :width="160"
+    >
+      <p>{{ selected.length }}席の予約を確定します。よろしいですか？</p>
+      <div style="text-align: right; margin: 0">
+        <el-button size="small" type="text" @click="visible = false"
+          >キャンセル</el-button
+        >
+        <el-button size="small" type="primary" @click="handleConfirmBooking"
+          >確定</el-button
+        >
+      </div>
+      <template #reference>
+        <el-button :disabled="selected.length == 0" @click="visible = true"
+          >予約</el-button
+        >
+      </template>
+    </el-popover>
   </body>
 </template>
 
@@ -140,8 +184,8 @@ body {
 .screen {
   background-color: #fff;
   height: 70px;
-  width: 100%;
-  margin: 15px 0;
+  width: 40%;
+  margin: 20px auto;
   transform: rotateX(-45deg);
   box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
 }

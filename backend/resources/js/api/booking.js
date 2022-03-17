@@ -6,3 +6,11 @@ export function find(id) {
     method: "get",
   })
 }
+
+export function store(data) {
+  return request({
+    url: "booking",
+    method: "post",
+    data: data,
+  })
+}
