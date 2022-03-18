@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus'
 const service = axios.create({
   baseURL: process.env.MIX_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
+  timeout: 10000, // request timeout
 })
 
 service.interceptors.response.use(
