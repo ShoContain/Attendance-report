@@ -1,4 +1,6 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix")
+const tailwindcss = require("tailwindcss")
+const path = require("path")
 
 /*
  |--------------------------------------------------------------------------
@@ -11,6 +13,36 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .vue()
-    .sass('resources/sass/app.scss', 'public/css');
+mix
+  .js("resources/js/app.js", "public/js")
+  .vue({ extractVueStyles: true })
+  .sass("resources/sass/app.scss", "public/css")
+  .options({
+    processCssUrls: false,
+    postCss: [tailwindcss("./tailwind.config.js")],
+  })
+  .browserSync({
+    files: ["./resources/**/*", "./public/**/*"],
+    proxy: {
+      target: "http://127.0.0.1/",
+    },
+    open: false,
+    reloadOnRestart: false,
+  })
+  .webpackConfig({
+    resolve: {
+      alias: {
+        "@": path.join(__dirname, "/resources/js"),
+      },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.m?js/,
+          resolve: {
+            fullySpecified: false,
+          },
+        },
+      ],
+    },
+  })
