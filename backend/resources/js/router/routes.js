@@ -2,6 +2,7 @@ import Home from "@/pages/Home.vue"
 import Login from "@/pages/Login.vue"
 import Detail from "@/pages/Detail.vue"
 import Booking from "@/pages/Booking.vue"
+import Reservation from "@/pages/Reservation.vue"
 
 export default [
   {
@@ -38,6 +39,15 @@ export default [
     component: Booking,
     meta: {
       title: "予約",
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/reservation",
+    name: "reservation",
+    component: Reservation,
+    meta: {
+      title: "予約確認",
       requiresAuth: true,
     },
   },

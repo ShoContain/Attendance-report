@@ -21,6 +21,6 @@ class Reservation extends Model
 
     public function scheduled_movies()
     {
-        return $this->belongsTo('App\Models\ScheduledMovie');
+        return $this->belongsTo('App\Models\ScheduledMovie','scheduled_movie_id');
     }
 }

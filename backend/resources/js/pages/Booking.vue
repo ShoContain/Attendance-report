@@ -1,17 +1,21 @@
 <script setup>
-import { find ,store} from "@/api/booking"
-import { ref, computed, onBeforeMount } from "vue"
-import { useRoute } from "vue-router"
+import { find, store } from "@/api/booking"
+import { useReservationStore } from "@/store/reservation"
+import { ref, computed, reactive } from "vue"
+import { useRoute,useRouter } from "vue-router"
 
 const route = useRoute()
+const router = useRouter()
+
+const reservationStore = useReservationStore()
+
 const loading = ref(false)
 const screen = ref(null)
 const selected = ref([])
 const visible = ref(false)
-
-onBeforeMount(() => {
-  const id = route.params && route.params.id
-  load(id)
+const form = reactive({
+  scheduledMovieId: null,
+  selectedSeat: [],
 })
 
 const load = async (id) => {
@@ -19,6 +23,7 @@ const load = async (id) => {
   try {
     const { data } = await find(id)
     screen.value = data
+    form.scheduledMovieId = data.scheduled_movie_id
     loading.value = false
   } catch (err) {
     // TODO:404ページを作成しリダイレクトをかける
@@ -27,19 +32,30 @@ const load = async (id) => {
 }
 
 const handleSelect = async (id) => {
-  const index = selected.value.indexOf(id)
+  const index = form.selectedSeat.indexOf(id)
   if (index === -1) {
-    selected.value.push(id)
+    form.selectedSeat.push(id)
   } else {
-    selected.value.splice(index, 1)
+    form.selectedSeat.splice(index, 1)
   }
 }
 
-const handleConfirmBooking= async () => {
-  const {data} = await store()
+const handleConfirmBooking = async () => {
+  try {
+    const result = await store(form)
+    reservationStore.save(result.data)
+    router.push('/reservation')
+  } catch (err) {
+    // if seat is taken reload this page
+    router.go()
+  }
 }
 
-const hasSelected = computed(() => selected.value.length > 0)
+const hasSelected = computed(() => form.selectedSeat.length > 0)
+const selectedCount = computed(() => form.selectedSeat.length )
+
+const id = route.params && route.params.id
+load(id)
 </script>
 
 <template>
@@ -65,7 +81,7 @@ const hasSelected = computed(() => selected.value.length > 0)
           class="seat"
           :class="[
             { occupied: screen.occupied_seats.includes(seat.id) },
-            { selected: selected.includes(seat.id) },
+            { selected: form.selectedSeat.includes(seat.id) },
           ]"
           :disabled="screen.occupied_seats.includes(seat.id)"
           @click="handleSelect(seat.id)"
@@ -74,7 +90,7 @@ const hasSelected = computed(() => selected.value.length > 0)
     </div>
 
     <p v-if="hasSelected" class="text">
-      <span id="count">{{ selected.length }}</span
+      <span id="count">{{ form.selectedSeat.length }}</span
       >席選択しています。
     </p>
     <p v-else class="text">席を選択してください。</p>
@@ -85,7 +101,7 @@ const hasSelected = computed(() => selected.value.length > 0)
       placement="top"
       :width="160"
     >
-      <p>{{ selected.length }}席の予約を確定します。よろしいですか？</p>
+      <p>{{ selectedCount }}席の予約を確定します。よろしいですか？</p>
       <div style="text-align: right; margin: 0">
         <el-button size="small" type="text" @click="visible = false"
           >キャンセル</el-button
@@ -95,7 +111,7 @@ const hasSelected = computed(() => selected.value.length > 0)
         >
       </div>
       <template #reference>
-        <el-button :disabled="selected.length == 0" @click="visible = true"
+        <el-button :disabled="!hasSelected" @click="visible = true"
           >予約</el-button
         >
       </template>

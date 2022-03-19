@@ -10,8 +10,8 @@ const handleSelect = (key) => {
   console.log(key)
 }
 
-const logout = () => {
-  store.logout()
+const logout = async () => {
+  await store.logout()
 }
 
 </script>
